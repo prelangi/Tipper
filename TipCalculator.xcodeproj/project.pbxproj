@@ -12,6 +12,7 @@
 		CA6DBC651C39E68A004C0BA3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA6DBC631C39E68A004C0BA3 /* Main.storyboard */; };
 		CA6DBC671C39E68A004C0BA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA6DBC661C39E68A004C0BA3 /* Assets.xcassets */; };
 		CA6DBC6A1C39E68A004C0BA3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA6DBC681C39E68A004C0BA3 /* LaunchScreen.storyboard */; };
+		CA6DBC721C3A51E1004C0BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6DBC711C3A51E1004C0BA3 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CA6DBC661C39E68A004C0BA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA6DBC691C39E68A004C0BA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA6DBC6B1C39E68A004C0BA3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA6DBC711C3A51E1004C0BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				CA6DBC5F1C39E68A004C0BA3 /* AppDelegate.swift */,
 				CA6DBC611C39E68A004C0BA3 /* ViewController.swift */,
+				CA6DBC711C3A51E1004C0BA3 /* SettingsViewController.swift */,
 				CA6DBC631C39E68A004C0BA3 /* Main.storyboard */,
 				CA6DBC661C39E68A004C0BA3 /* Assets.xcassets */,
 				CA6DBC681C39E68A004C0BA3 /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			files = (
 				CA6DBC621C39E68A004C0BA3 /* ViewController.swift in Sources */,
 				CA6DBC601C39E68A004C0BA3 /* AppDelegate.swift in Sources */,
+				CA6DBC721C3A51E1004C0BA3 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +288,7 @@
 				CA6DBC701C39E68A004C0BA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
