@@ -13,6 +13,12 @@ Completed:
 * [YES] Optional: Using locale-specific currency and currency thousands separators.
 * [YES] Optional: Making sure the keyboard is always visible and the bill amount is always the first responder. This way the user doesn't have to tap anywhere to use this app. Just launch the app and start typing.
 
+Additional Features: 
+* [YES] Adding support for bill splitting
+* [YES] Controlling default bill splitting through the settings screen
+* [YES] Custom settings icon
+* [YES] Custom background for the app
+
 ![Video Walkthrough](name of your gif file.gif)
 
 Note: to embed the gif file, just check your gif file into your repo and update the name of the file above.
