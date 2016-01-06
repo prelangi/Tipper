@@ -10,11 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var billAmount: UITextField!
- 
+    @IBOutlet weak var billAmount: UITextField?
     @IBOutlet weak var tipSegment: UISegmentedControl!
-    
     @IBOutlet weak var tipAmount: UILabel!
+    @IBOutlet weak var splitSegment: UISegmentedControl!
     @IBOutlet weak var totalBill: UILabel!
     var bill: Double = 0
 
@@ -23,63 +22,105 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
-        //getDefaultValues()
         
-        billAmount.becomeFirstResponder()
+        // Make the keyboard visible on app start
+        billAmount!.becomeFirstResponder()
+        
+        //Remember bill amount across app restarts
         let defaults        = NSUserDefaults.standardUserDefaults()
         let lastBillDate    = defaults.doubleForKey("last_bill_date")
-        var lastBillAmt: String? = defaults.stringForKey("last_bill_amount")
-        
+        let lastBillAmt: String? = defaults.stringForKey("last_bill_amount")
         let currentDate = NSDate().timeIntervalSince1970
         
         if (currentDate-lastBillDate)<600.0 {
-            billAmount.text = lastBillAmt
-            tipSegment.selectedSegmentIndex = defaults.integerForKey("last_tip_index")
+            billAmount!.text = lastBillAmt
+            tipSegment.selectedSegmentIndex = defaults.integerForKey("default_tip_index")
+            
+            splitSegment.selectedSegmentIndex = defaults.integerForKey("default_split_index")
+            
         }
         else {
             print("Been more than 10min")
-            billAmount.text = ""
+            billAmount!.text = "0"
+            tipSegment.selectedSegmentIndex = defaults.integerForKey("default_tip_index")
+            splitSegment.selectedSegmentIndex = defaults.integerForKey("default_split_index")
+            
+            //Set the last bill to zero
+            
+            
         }
+        
+        updateBill()
         
         
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillDisappear(animated)
         
         let defaults = NSUserDefaults.standardUserDefaults()
         
-        //Save date,tip index and bill amount
-        defaults.setObject(billAmount.text, forKey:"last_bill_amount")
+        //Save the last bill amount
+        defaults.setObject(billAmount!.text, forKey:"last_bill_amount")
         defaults.setDouble(NSDate().timeIntervalSince1970,forKey: "last_bill_date")
-        defaults.setInteger(tipSegment.selectedSegmentIndex,forKey: "default_tip_index")
         defaults.synchronize()
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        getDefaultValues()
+    override func viewWillAppear(animated: Bool) {
         
+        super.viewWillAppear(animated)
         
+        billAmount!.becomeFirstResponder()
+        
+        let defaults        = NSUserDefaults.standardUserDefaults()
+        let lastBillDate    = defaults.doubleForKey("last_bill_date")
+        let lastBillAmt: String? = defaults.stringForKey("last_bill_amount")
+        let defaultTipIndex = defaults.integerForKey("default_tip_index")
+        let defaultSplitIndex = defaults.integerForKey("default_split_index")
+        let currentDate = NSDate().timeIntervalSince1970
+        
+        if (currentDate-lastBillDate)<600.0 {
+            billAmount!.text = lastBillAmt
+            print("lastBillAmount: \(lastBillAmt) ")
+        }
+        else {
+            print("Been more than 10min")
+            billAmount!.text = "0"
+            
+        }
+        
+        tipSegment.selectedSegmentIndex = defaultTipIndex
+        splitSegment.selectedSegmentIndex = defaultSplitIndex
+        
+        updateBill()
     }
+    
     
     func getDefaultValues() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        let tipSegmentIndex = defaults.integerForKey("default_tip_index")
+        let tipSegmentIndex     = defaults.integerForKey("default_tip_index")
+        let splitSegmentIndex   = defaults.integerForKey("default_split_index")
         tipSegment.selectedSegmentIndex = tipSegmentIndex
+        splitSegment.selectedSegmentIndex = splitSegmentIndex
         
     }
 
     func updateBill() {
         let tipPercentages = [0.1,0.15,0.18,0.2]
+        let splits         = [1,2,3,4,5]
         let selectedTipPercentage = tipPercentages[tipSegment.selectedSegmentIndex]
+        let selectedSplit = splits[splitSegment.selectedSegmentIndex]
         
-        let bill = Double(billAmount.text!)!
+        var bill:Double = 0
+        if let givenBill = Double((billAmount?.text)!) {
+            bill = givenBill
+        }
+        //let bill = Double(givenBill)!
         let tip  = selectedTipPercentage*bill
-        let total  = bill + tip
+        let total  = (bill + tip)/(Double(selectedSplit))
         
-        var formatter = NSNumberFormatter()
+        let formatter = NSNumberFormatter()
         formatter.numberStyle = .CurrencyStyle
         formatter.locale = NSLocale.currentLocale()
         
@@ -87,8 +128,6 @@ class ViewController: UIViewController {
         //Formatting the amount to be accurate for upto two decimal points
         totalBill.text = String(format: "$%0.2f", total)
         tipAmount.text = String(format: "$%0.2f", tip)
-        
-        //print("Bill = ",formatter.stringFromNumber(total)!)
         
         totalBill.text = formatter.stringFromNumber(total)!
         tipAmount.text = formatter.stringFromNumber(tip)!
@@ -114,6 +153,10 @@ class ViewController: UIViewController {
 
     @IBAction func tipValueChanged(sender: AnyObject) {
         
+        updateBill()
+    }
+    
+    @IBAction func splitValueChanged(sender: AnyObject) {
         updateBill()
     }
     

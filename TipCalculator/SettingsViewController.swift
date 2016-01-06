@@ -10,21 +10,21 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
-    
+    @IBOutlet weak var defaultSplitSetting: UISegmentedControl!
     @IBOutlet weak var defaultTipSetting: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        var defaults = NSUserDefaults.standardUserDefaults()
-        var tipSegmentIndex = defaults.integerForKey("default_tip_index")
-        defaultTipSetting.selectedSegmentIndex = tipSegmentIndex
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaultTipSetting.selectedSegmentIndex = defaults.integerForKey("default_tip_index")
         
-        
+        defaultSplitSetting.selectedSegmentIndex = defaults.integerForKey("default_split_index")
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,12 +33,27 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func onDefaultTipChanged(sender: AnyObject) {
-        
-        var defaults = NSUserDefaults.standardUserDefaults()
+        saveDefaultValues()
+    }
+    
+    @IBAction func onDefaultSplitChanged(sender: AnyObject) {
+        saveDefaultValues()
+    }
+    
+    func saveDefaultValues() {
+        let defaults = NSUserDefaults.standardUserDefaults()
         //defaults.setObject("default_tip_percent", forKey: "some_key_that_you_choose")
         defaults.setInteger(defaultTipSetting.selectedSegmentIndex, forKey: "default_tip_index")
+        defaults.setInteger(defaultSplitSetting.selectedSegmentIndex,forKey: "default_split_index")
+        var lastSplitIndex = defaultSplitSetting.selectedSegmentIndex
+        var lastTipIndex = defaultTipSetting.selectedSegmentIndex
+        print("** Settings ** lastSplitindex: \(lastSplitIndex)")
+        print("** Settings ** lastTipIndex  : \(lastTipIndex)")
         defaults.synchronize()
+        
     }
+    
+
 
     /*
     // MARK: - Navigation
