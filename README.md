@@ -19,6 +19,6 @@ Additional Features:
 * [YES] Custom settings icon
 * [YES] Custom background for the app
 
-![Video Walkthrough](name of your gif file.gif)
+![https://github.com/prelangi/Tipper/blob/master/TipperDemo.gif](Tipper walkthrough)
 
 Note: to embed the gif file, just check your gif file into your repo and update the name of the file above.
