@@ -26,7 +26,34 @@ class ViewController: UIViewController {
         //getDefaultValues()
         
         billAmount.becomeFirstResponder()
+        let defaults        = NSUserDefaults.standardUserDefaults()
+        let lastBillDate    = defaults.doubleForKey("last_bill_date")
+        var lastBillAmt: String? = defaults.stringForKey("last_bill_amount")
         
+        let currentDate = NSDate().timeIntervalSince1970
+        
+        if (currentDate-lastBillDate)<600.0 {
+            billAmount.text = lastBillAmt
+            tipSegment.selectedSegmentIndex = defaults.integerForKey("last_tip_index")
+        }
+        else {
+            print("Been more than 10min")
+            billAmount.text = ""
+        }
+        
+        
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        //Save date,tip index and bill amount
+        defaults.setObject(billAmount.text, forKey:"last_bill_amount")
+        defaults.setDouble(NSDate().timeIntervalSince1970,forKey: "last_bill_date")
+        defaults.setInteger(tipSegment.selectedSegmentIndex,forKey: "default_tip_index")
+        defaults.synchronize()
         
     }
     
@@ -38,8 +65,8 @@ class ViewController: UIViewController {
     }
     
     func getDefaultValues() {
-        var defaults = NSUserDefaults.standardUserDefaults()
-        var tipSegmentIndex = defaults.integerForKey("default_tip_index")
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let tipSegmentIndex = defaults.integerForKey("default_tip_index")
         tipSegment.selectedSegmentIndex = tipSegmentIndex
         
     }
